@@ -11,16 +11,16 @@
     <BuildHost>?</BuildHost>
     <Filelist>
         <File Permission="660" Location="doc/en/MultiTenancy.pod" />
-        <File Permission="660" Location=" Custom/Kernel/System/Queue.pm" />
-        <File Permission="660" Location=" Custom/Kernel/System/CustomerUser/DB.pm" />
-        <File Permission="660" Location=" Custom/Kernel/System/CustomerCompany/DB.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Output/HTML/Dashboard/CustomerUserList.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AgentCustomerInformationCenterSearch.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerCompany.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AgentCustomerUserInformationCenterSearch.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AgentCustomerSearch.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerUserCustomer.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerUser.pm" />
-        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerUserGroup.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Queue.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/CustomerUser/DB.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/CustomerCompany/DB.pm" />
+        <File Permission="660" Location="Custom/Kernel/Output/HTML/Dashboard/CustomerUserList.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerInformationCenterSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerCompany.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerUserInformationCenterSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserCustomer.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUser.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserGroup.pm" />
     </Filelist>
 </otrs_package>

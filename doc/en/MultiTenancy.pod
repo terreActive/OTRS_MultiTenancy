@@ -1,0 +1,29 @@
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+MultiTenancy - group agents and customer users
+
+=head1 DESCRIPTION
+
+Dedicated resources for groups of agents and customers.
+
+=head1 TDB
+
+TBD
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (c) 2022 by Othmar Wigger <othmar.wigger@terreactive.ch>
+
+This is free software; you can redistribute it and/or modify it under
+the Gnu Affero General Public License version 3.
+
+This package is provided "as is" and without any express or implied
+warranties, including, without limitation, the implied warranties of
+merchantibility and fitness for a particular purpose.
+
+=cut
+

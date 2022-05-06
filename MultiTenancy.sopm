@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+    <Name>MultiTenancy</Name>
+    <Version>6.3.3</Version>
+    <Framework>6.3.3</Framework>
+    <Vendor>terreActive AG</Vendor>
+    <URL>http://www.terreactive.ch/</URL>
+    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <Description>Dedicated queues for groups of agents and customers.</Description>
+    <BuildDate>?</BuildDate>
+    <BuildHost>?</BuildHost>
+    <Filelist>
+        <File Permission="660" Location="doc/en/MultiTenancy.pod" />
+        <File Permission="660" Location=" Custom/Kernel/System/Queue.pm" />
+        <File Permission="660" Location=" Custom/Kernel/System/CustomerUser/DB.pm" />
+        <File Permission="660" Location=" Custom/Kernel/System/CustomerCompany/DB.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Output/HTML/Dashboard/CustomerUserList.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AgentCustomerInformationCenterSearch.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerCompany.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AgentCustomerUserInformationCenterSearch.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AgentCustomerSearch.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerUserCustomer.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerUser.pm" />
+        <File Permission="660" Location=" Custom/Kernel/Modules/AdminCustomerUserGroup.pm" />
+    </Filelist>
+</otrs_package>

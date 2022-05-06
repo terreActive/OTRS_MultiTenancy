@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="2.0" init="Application">
+    <Setting Name="MultiTenancy" Required="1" Valid="1">
+        <Description Lang="en">If enabled, agents can only see customer users, queues, and other resources with which they share a common group membership.</Description>
+        <Navigation>Core</Navigation>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+</otrs_config>

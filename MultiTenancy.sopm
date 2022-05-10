@@ -22,5 +22,6 @@
         <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserCustomer.pm" />
         <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUser.pm" />
         <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserGroup.pm" />
+        <File Permission="660" Location="Kernel/Config/Files/XML/MultiTenancy.xml" />
     </Filelist>
 </otrs_package>

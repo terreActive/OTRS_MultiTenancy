@@ -39,9 +39,6 @@ sub new {
     $Self->{CustomerCompanyKey} = $Self->{CustomerCompanyMap}->{CustomerCompanyKey}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyValid} = $Self->{CustomerCompanyMap}->{'CustomerCompanyValid'};
-    if ($Self->{CustomerCompanyValid} eq 'valid_id') {
-        $Self->{CustomerCompanyValid} = 'customer_company.valid_id';
-    }
     $Self->{SearchListLimit}      = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'} || 50000;
     $Self->{SearchPrefix}         = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchPrefix'};
 
@@ -88,6 +85,12 @@ sub new {
     my @DynamicFieldMapEntries = grep { $_->[5] eq 'dynamic_field' } @{ $Self->{CustomerCompanyMap}->{Map} };
     $Self->{ConfiguredDynamicFieldNames} = { map { $_->[2] => 1 } @DynamicFieldMapEntries };
 
+    if ($Kernel::OM->Get('Kernel::Config')->Get('MultiTenancy')) {
+        $Self->{MultiTenancy} = 1;
+        if ($Self->{CustomerCompanyValid} eq 'valid_id') {
+            $Self->{CustomerCompanyValid} = 'customer_company.valid_id';
+        }
+    }
     return $Self;
 }
 
@@ -95,7 +98,7 @@ sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{UserID} ) {
+    if ( $Self->{MultiTenancy} && !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID!'
@@ -116,8 +119,9 @@ sub CustomerCompanyList {
     if ( $Self->{CacheObject} ) {
 
         $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
-        $CacheKey  = "CustomerCompanyList::${Valid}::${Limit}::" .
-            $Param{UserID} . "::" . ( $Param{Search} || '' );
+        $CacheKey  = "CustomerCompanyList::${Valid}::${Limit}::";
+        $CacheKey .= $Param{UserID} . "::" if ( $Self->{MultiTenancy} );
+        $CacheKey .= ( $Param{Search} || '' );
 
         my $Data = $Self->{CacheObject}->Get(
             Type => $CacheType,
@@ -136,12 +140,14 @@ sub CustomerCompanyList {
     my @CustomerCompanyListFieldsWithoutDynamicFields
         = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
 
+    # what is the result
+    my @What = @CustomerCompanyListFieldsWithoutDynamicFields;
+
     # add valid option if required
     my $SQL;
     my @Bind;
     my @Conditions;
     my $SQLfrom;
-    my @What = @CustomerCompanyListFieldsWithoutDynamicFields;
 
     if ( $Valid && $Self->{CustomerCompanyValid} ) {
 
@@ -151,8 +157,8 @@ sub CustomerCompanyList {
         push @Conditions, "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )";
     }
 
-    # find only customers visible to Agent via common group?
-    if ($Kernel::OM->Get('Kernel::Config')->Get('MultiTenancy')) {
+    if ( $Self->{MultiTenancy} ) {
+        # find only customers visible to User via a common group
         push @Conditions, "roles.valid_id = 1";
         push @Conditions, "(
             (
@@ -229,8 +235,14 @@ sub CustomerCompanyList {
     @What = map { $ColumnsMap{$_} || $_ } ($Self->{CustomerCompanyKey}, @What);
 
     # sql
-    my $CompleteSQL = "SELECT DISTINCT " . join( ', ', @What) .
-        " FROM $Self->{CustomerCompanyTable} " . $SQLfrom;
+    my $CompleteSQL;
+    if ( $Self->{MultiTenancy} ) {
+        $CompleteSQL = "SELECT DISTINCT " . join( ', ', @What) .
+            " FROM $Self->{CustomerCompanyTable} " . $SQLfrom;
+    } else {
+        $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, " . join( ', ', @What) .
+            " FROM $Self->{CustomerCompanyTable}";
+    }
 
     if (@Conditions) {
         $SQL = join( ' AND ', @Conditions );

@@ -272,12 +272,11 @@ sub CustomerSearch {
         );
         return;
     }
-    if (!$Param{UserID} || !$MultiTenancy) {
+    if ( $MultiTenancy && !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => ' Need UserID!',
         );
-        die;
         return;
     }
 

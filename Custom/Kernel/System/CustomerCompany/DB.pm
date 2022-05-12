@@ -87,9 +87,6 @@ sub new {
 
     if ($Kernel::OM->Get('Kernel::Config')->Get('MultiTenancy')) {
         $Self->{MultiTenancy} = 1;
-        if ($Self->{CustomerCompanyValid} eq 'valid_id') {
-            $Self->{CustomerCompanyValid} = 'customer_company.valid_id';
-        }
     }
     return $Self;
 }
@@ -141,25 +138,26 @@ sub CustomerCompanyList {
         = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
 
     # what is the result
-    my @What = @CustomerCompanyListFieldsWithoutDynamicFields;
+    my $What = join(
+        ', ',
+        @CustomerCompanyListFieldsWithoutDynamicFields
+    );
 
     # add valid option if required
     my $SQL;
     my @Bind;
     my @Conditions;
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+    my $ValidIDs = join(',', $ValidObject->ValidIDsGet());
     my $SQLfrom;
 
     if ( $Valid && $Self->{CustomerCompanyValid} ) {
-
-        # get valid object
-        my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
-
-        push @Conditions, "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )";
+        push @Conditions, "customer_company.$Self->{CustomerCompanyValid} IN ($ValidIDs)";
     }
 
     if ( $Self->{MultiTenancy} ) {
         # find only customers visible to User via a common group
-        push @Conditions, "roles.valid_id = 1";
+        push @Conditions, "roles.valid_id IN ($ValidIDs)" if ($Valid);
         push @Conditions, "(
             (
               role_user.user_id = $Param{UserID}
@@ -208,12 +206,6 @@ sub CustomerCompanyList {
             BindMode      => 1,
         );
 
-        use Data::Dumper;
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'QueryCondition=' . Dumper(\%QueryCondition),
-        );
-
         if ( $QueryCondition{SQL} ) {
             push @Conditions, " $QueryCondition{SQL}";
             push @Bind,       @{ $QueryCondition{Values} };
@@ -232,16 +224,17 @@ sub CustomerCompanyList {
     my @CustomerCompanyListFieldsDynamicFields
         = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
 
-    @What = map { $ColumnsMap{$_} || $_ } ($Self->{CustomerCompanyKey}, @What);
-
     # sql
     my $CompleteSQL;
     if ( $Self->{MultiTenancy} ) {
+        my @What = map { $ColumnsMap{$_} || $_ } (
+            $Self->{CustomerCompanyKey},
+            @CustomerCompanyListFieldsWithoutDynamicFields
+        );
         $CompleteSQL = "SELECT DISTINCT " . join( ', ', @What) .
             " FROM $Self->{CustomerCompanyTable} " . $SQLfrom;
     } else {
-        $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, " . join( ', ', @What) .
-            " FROM $Self->{CustomerCompanyTable}";
+        $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     }
 
     if (@Conditions) {
@@ -250,10 +243,6 @@ sub CustomerCompanyList {
     }
 
     # get data from customer company table
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'debug',
-        Message  => 'CompleteSQL=' . $CompleteSQL . ' Bind=' . join(",", @Bind),
-    );
     $Self->{DBObject}->Prepare(
         SQL   => $CompleteSQL,
         Bind  => \@Bind,

@@ -1226,7 +1226,7 @@ sub _Edit {
         {
             my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
             my %CompanyList           = (
-                $CustomerCompanyObject->CustomerCompanyList( Limit => 0 ),
+                $CustomerCompanyObject->CustomerCompanyList( UserID => $Self->{UserID}, Limit => 0 ),
                 '' => '-',
             );
             if ( $Param{ $Entry->[0] } ) {

@@ -109,6 +109,7 @@ sub Run {
 
         my %CustomerCompanyList = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList(
             Search => $SearchTerm,
+            UserID => $Self->{UserID},
         );
         map { $CustomerCompanyList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
 

@@ -16,7 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
 use Digest::SHA;
-use Data::Dumper;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -484,10 +483,6 @@ sub CustomerSearch {
         = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
 
     # get data from customer user table
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'debug',
-        Message  => 'SQL=' . $SQL,
-    );
     return if !$Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
@@ -1429,6 +1424,7 @@ sub CustomerUserAdd {
         my %Result = $Self->CustomerSearch(
             Valid            => 0,
             PostMasterSearch => $Param{UserEmail},
+            UserID => $Self->{UserID},
         );
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1607,6 +1603,7 @@ sub CustomerUserUpdate {
         my %Result = $Self->CustomerSearch(
             Valid            => 0,
             PostMasterSearch => $Param{UserEmail},
+            UserID => $Self->{UserID},
         );
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

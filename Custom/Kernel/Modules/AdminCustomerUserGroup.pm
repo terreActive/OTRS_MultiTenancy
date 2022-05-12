@@ -292,7 +292,7 @@ sub Run {
     # search customer user
     my %CustomerUserList = $CustomerUserObject->CustomerSearch(
         Search => $Param{CustomerUserSearch},
-            UserID => $Self->{UserID},
+        UserID => $Self->{UserID},
     );
     my @CustomerUserKeyList = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
 

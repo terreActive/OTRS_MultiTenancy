@@ -310,7 +310,7 @@ sub CustomerSearch {
 
     # build SQL string 2/2
     if ($MultiTenancy)  {
-        # disambiguate database column
+        # disambiguate database columns
         if ($Self->{CustomerID} eq 'customer_id') {
             $Self->{CustomerID} = 'cc.customer_id';
         }
@@ -365,6 +365,12 @@ sub CustomerSearch {
 
         if ( $Param{CustomerUserOnly} ) {
             @CustomerUserSearchFields = grep { $_ ne 'customer_id' } @CustomerUserSearchFields;
+        }
+
+        if ($MultiTenancy)  {
+            # disambiguate dababase columns
+            s/\Alogin\Z/cu.login/ for @CustomerUserSearchFields;
+            s/\Acustomer_id\Z/cu.customer_id/ for @CustomerUserSearchFields;
         }
 
         my %QueryCondition = $Self->{DBObject}->QueryCondition(

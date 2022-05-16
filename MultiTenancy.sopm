@@ -11,17 +11,38 @@
     <BuildHost>?</BuildHost>
     <Filelist>
         <File Permission="660" Location="doc/en/MultiTenancy.pod" />
-        <File Permission="660" Location="Custom/Kernel/System/Queue.pm" />
-        <File Permission="660" Location="Custom/Kernel/System/CustomerUser/DB.pm" />
-        <File Permission="660" Location="Custom/Kernel/System/CustomerCompany/DB.pm" />
-        <File Permission="660" Location="Custom/Kernel/Output/HTML/Dashboard/CustomerUserList.pm" />
-        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerInformationCenterSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm" />
         <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerCompany.pm" />
-        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerUserInformationCenterSearch.pm" />
-        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerGroup.pm" />
         <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserCustomer.pm" />
-        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUser.pm" />
         <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserGroup.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUser.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AdminCustomerUserService.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerInformationCenterSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentCustomerUserInformationCenterSearch.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentTicketCompose.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentTicketCustomer.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentTicketEmail.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentTicketEmailResend.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentTicketPhone.pm" />
+        <File Permission="660" Location="Custom/Kernel/Modules/AgentTicketProcess.pm" />
+        <File Permission="660" Location="Custom/Kernel/Output/HTML/Article/Chat.pm" />
+        <File Permission="660" Location="Custom/Kernel/Output/HTML/Article/MIMEBase.pm" />
+        <File Permission="660" Location="Custom/Kernel/Output/HTML/Dashboard/CustomerUserList.pm" />
+        <File Permission="660" Location="Custom/Kernel/Output/HTML/Statistics/View.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Console/Command/Admin/CustomerUser/SetPassword.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Console/Command/Maint/SMIME/CustomerCertificate/Fetch.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Console/Command/Maint/SMIME/CustomerCertificate/Renew.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Console/Command/Maint/SMIME/FetchFromCustomer.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Crypt/SMIME.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/CustomerCompany/DB.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/CustomerCompany/Event/CustomerUserUpdate.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/CustomerGroup.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/CustomerUser/DB.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/PostMaster/NewTicket.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/ProcessManagement/TransitionAction/ConfigItemUpdate.pm" />
+        <File Permission="660" Location="Custom/Kernel/System/Queue.pm" />
         <File Permission="660" Location="Kernel/Config/Files/XML/MultiTenancy.xml" />
     </Filelist>
 </otrs_package>

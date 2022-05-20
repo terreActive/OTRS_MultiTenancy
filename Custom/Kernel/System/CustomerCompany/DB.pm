@@ -160,15 +160,13 @@ sub CustomerCompanyList {
         push @Conditions, "roles.valid_id IN ($ValidIDs)" if ($Valid);
         push @Conditions, "(
             (
-              role_user.user_id = $Param{UserID}
-              AND group_role.permission_key = 'rw'
+                role_user.user_id = $Param{UserID}
+                AND group_role.permission_key = 'rw'
+            ) OR (
+                group_user.user_id = $Param{UserID}
+                AND group_user.permission_key = 'rw'
             )
-            OR (
-              group_user.user_id = $Param{UserID}
-              AND group_user.permission_key = 'rw'
-            )
-          )
-        ";
+        )";
         $SQLfrom = "
             JOIN group_customer
             ON group_customer.customer_id = customer_company.customer_id
@@ -177,7 +175,7 @@ sub CustomerCompanyList {
             JOIN roles
             ON roles.id = group_role.role_id
             JOIN role_user ON role_user.role_id = roles.id
-            FULL OUTER JOIN group_user
+            LEFT JOIN group_user
             ON group_user.group_id = group_customer.group_id
         ";
     }

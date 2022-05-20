@@ -316,7 +316,7 @@ sub CustomerSearch {
         }
 
         $SQL .= " FROM $Self->{CustomerTable} AS cu
-            FULL OUTER JOIN customer_user_customer AS cuc ON cuc.user_id = cu.login
+            LEFT JOIN customer_user_customer AS cuc ON cuc.user_id = cu.login
             JOIN customer_company AS cc ON
                     cc.customer_id = cu.customer_id
                 OR
@@ -324,8 +324,8 @@ sub CustomerSearch {
             JOIN group_customer AS gc ON gc.customer_id = cc.customer_id
             JOIN group_role AS gr ON gr.group_id = gc.group_id
             JOIN roles AS r ON r.id = gr.role_id
-            JOIN role_user AS ru ON ru.role_id = r.id FULL
-            OUTER JOIN group_user as gu ON gu.group_id = gc.group_id
+            JOIN role_user AS ru ON ru.role_id = r.id
+            LEFT JOIN group_user as gu ON gu.group_id = gc.group_id
         WHERE
             (
                 (

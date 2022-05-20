@@ -5,7 +5,7 @@
         <Navigation>Core</Navigation>
         <Navigation>Core</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
 </otrs_config>

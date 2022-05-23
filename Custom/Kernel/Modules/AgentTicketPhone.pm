@@ -2235,6 +2235,19 @@ sub _GetTos {
         my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
         my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 
+        my $MultiTenancy = $ConfigObject->Get('MultiTenancy');
+        my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+        my %CustomerUserGroupIDs;
+        if ($MultiTenancy && $Param{CustomerUserID}) {
+            # groups for which customer user is allowed to create tichets
+            %CustomerUserGroupIDs = $CustomerGroupObject->GroupMemberList(
+                UserID         => $Param{CustomerUserID},
+                Type           => 'rw',
+                Result         => 'HASH',
+                RawPermissions => 0,
+            );
+        }
+
         # build selection string
         QUEUEID:
         for my $QueueID ( sort keys %Tos ) {
@@ -2243,6 +2256,11 @@ sub _GetTos {
 
             # permission check, can we create new tickets in queue
             next QUEUEID if !$UserGroups{ $QueueData{GroupID} };
+
+            if ($MultiTenancy && $Param{CustomerUserID}) {
+                # check customer user group memebership
+                next QUEUEID if !$CustomerUserGroupIDs{$QueueData{GroupID}};
+            }
 
             my $String = $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';

@@ -117,7 +117,9 @@ sub CustomerCompanyList {
 
         $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
         $CacheKey  = "CustomerCompanyList::${Valid}::${Limit}::";
-        $CacheKey .= $Param{UserID} . "::" if ( $Self->{MultiTenancy} );
+        if ( $Self->{MultiTenancy} && !$Param{UserID} ) {
+            $CacheKey .= $Param{UserID} . "::";
+        }
         $CacheKey .= ( $Param{Search} || '' );
 
         my $Data = $Self->{CacheObject}->Get(
@@ -155,7 +157,7 @@ sub CustomerCompanyList {
         push @Conditions, "customer_company.$Self->{CustomerCompanyValid} IN ($ValidIDs)";
     }
 
-    if ( $Self->{MultiTenancy} ) {
+    if ( $Self->{MultiTenancy} && $Param{UserID} != 1 ) {
         # find only customers visible to User via a common group
         push @Conditions, "roles.valid_id IN ($ValidIDs)" if ($Valid);
         push @Conditions, "(
@@ -224,7 +226,7 @@ sub CustomerCompanyList {
 
     # sql
     my $CompleteSQL;
-    if ( $Self->{MultiTenancy} ) {
+    if ( $Self->{MultiTenancy} && $Param{UserID} != 1 ) {
         my @What = map { $ColumnsMap{$_} || $_ } (
             $Self->{CustomerCompanyKey},
             @CustomerCompanyListFieldsWithoutDynamicFields

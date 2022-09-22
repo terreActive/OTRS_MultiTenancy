@@ -3734,13 +3734,18 @@ sub _CertificateAttributesGet {
 
         # Handle multiple e-mail certificates.
         if ( $SearchType eq "email_address" ) {
-            $SearchQuery = '%' . $Search . '%';
-            $SQL .= "AND $SearchType LIKE ?";
+
+            $SQL .= "AND " . $DBObject->QueryCondition(
+                Key          => $SearchType,
+                Value        => $Search,
+                SearchPrefix => '*',
+                SearchSuffix => '*'
+            );
         }
         else {
             $SQL .= "AND $SearchType = ?";
+            push @Bind, \$SearchQuery;
         }
-        push @Bind, \$SearchQuery;
     }
 
     my $Certificates = $DBObject->SelectAll(

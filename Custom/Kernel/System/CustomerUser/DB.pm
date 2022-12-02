@@ -412,7 +412,7 @@ sub CustomerSearch {
                     $SQLExt .= " LOWER($Field) = LOWER(?) ";
                 }
             }
-            $SQL .= $SQLExt;
+            $SQL .= " ($SQLExt) ";
         }
     }
     elsif ( $Param{UserLogin} ) {

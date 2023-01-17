@@ -8,15 +8,42 @@ MultiTenancy - group agents and customer users
 
 =head1 DESCRIPTION
 
-Dedicated resources for groups of agents and customers.
+This is an OTRS extension packages (OPM) providing dedicated resources for
+groups of agents and customers.
 
-=head1 TDB
+MultiTenenacy makes that an agent user can see a customer user if (and only if)
+they both are members of the same group. Any group will do. Best is to create
+your own groups.
 
-TBD
+For example: create one group per customer company. Assign all customer users
+of this company to the group. Then, choose which of your agents should be
+allowed to interact with this customer. Assign them to the group, too. As for
+the root/superuser, assign it to all groups.
+
+The group membership can be direct, or via roles (for agents users) and customer
+companies (for customer users). E.g. I have a role for each internal tickets,
+i.e. customer users in our companies, and roles for different kinds of customer
+companies (depending on the kind of service are subscribed to).
+
+Next, create a separate queue for each of these permission groups. This is
+somewhat redundant, but it is necessary, because ticket permissions in OTRS are
+granted by queue, not by group. Each queue has a single group. This makes the
+connection between agent users and tickets.
+
+If you have to control customer users's access to tickets, use services. There
+is a customer users to service relation. It does not use groups, unfortunately.
+
+The setting CustomerGroupSupport must be enabled, but this is already done by
+installing MultiTenancy.opm.
+
+=head1 SYSCONFIG SETTINGS
+
+There is a new setting B<MultiTenancy> that allows switching the feature off
+and on.
 
 =head1 COPYRIGHT AND LICENCE
 
-Copyright (c) 2022 by Othmar Wigger <othmar.wigger@terreactive.ch>
+Copyright (c) 2023 by Othmar Wigger <othmar.wigger@terreactive.ch>
 
 This is free software; you can redistribute it and/or modify it under
 the Gnu Affero General Public License version 3.
@@ -26,4 +53,3 @@ warranties, including, without limitation, the implied warranties of
 merchantibility and fitness for a particular purpose.
 
 =cut
-

@@ -279,6 +279,11 @@ sub CustomerSearch {
         return;
     }
 
+    # root user can see all customer users
+    if ( $MultiTenancy && $Param{UserID} == 1) {
+        $MultiTenancy = 0;
+    }
+
     # check cache
     my $CacheKey = join '::', map { $_ . '=' . $Param{$_} } sort keys %Param;
 

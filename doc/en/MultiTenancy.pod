@@ -8,12 +8,12 @@ MultiTenancy - group agents and customer users
 
 =head1 DESCRIPTION
 
-This is an OTRS extension packages (OPM) providing dedicated resources for
+This is an OTRS extension package (OPM) providing dedicated resources for
 groups of agents and customers.
 
 MultiTenenacy makes that an agent user can see a customer user if (and only if)
-they both are members of the same group. Any group will do. Best is to create
-your own groups.
+they both are members of the same group. Any group will do. Best to create your
+own groups.
 
 For example: create one group per customer company. Assign all customer users
 of this company to the group. Then, choose which of your agents should be
@@ -21,17 +21,18 @@ allowed to interact with this customer. Assign them to the group, too. As for
 the root/superuser, assign it to all groups.
 
 The group membership can be direct, or via roles (for agents users) and customer
-companies (for customer users). E.g. I have a role for each internal tickets,
+companies (for customer users). E.g. I have a role for each internal ticket,
 i.e. customer users in our companies, and roles for different kinds of customer
 companies (depending on the kind of service are subscribed to).
 
 Next, create a separate queue for each of these permission groups. This is
-somewhat redundant, but it is necessary, because ticket permissions in OTRS are
+somewhat redundant, but it is necessary because ticket permissions in OTRS are
 granted by queue, not by group. Each queue has a single group. This makes the
 connection between agent users and tickets.
 
-If you have to control customer users's access to tickets, use services. There
-is a customer users to service relation. It does not use groups, unfortunately.
+If you have to control customer users' access to tickets, use services. There
+is a relation between customer users to services. It does not use groups,
+unfortunately.
 
 The setting CustomerGroupSupport must be enabled, but this is already done by
 installing MultiTenancy.opm.
@@ -50,6 +51,6 @@ the Gnu Affero General Public License version 3.
 
 This package is provided "as is" and without any express or implied
 warranties, including, without limitation, the implied warranties of
-merchantibility and fitness for a particular purpose.
+merchantability and fitness for a particular purpose.
 
 =cut
